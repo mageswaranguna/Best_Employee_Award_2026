@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Employee Award 2026</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#667085;--primary:#2563eb;--primary2:#1d4ed8;--border:#d9e0ea;--success:#16a34a;--danger:#dc2626;--warning:#d97706}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#173b8f,#2563eb);color:#fff;padding:24px 5%;box-shadow:0 2px 12px #0002}
+header h1{margin:0 0 6px;font-size:28px}header p{margin:0;opacity:.9}
+.container{max-width:1200px;margin:28px auto;padding:0 18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;box-shadow:0 4px 16px #1d29391a;margin-bottom:18px}
+.hidden{display:none!important}.grid{display:grid;gap:16px}.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+label{font-weight:600;display:block;margin-bottom:7px}select,input,textarea{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:9px;font-size:15px;background:#fff}
+button{border:0;border-radius:9px;padding:11px 17px;font-size:15px;font-weight:600;cursor:pointer;background:var(--primary);color:#fff}
+button:hover{background:var(--primary2)}button.secondary{background:#64748b}button.success{background:var(--success)}button.danger{background:var(--danger)}button.warning{background:var(--warning)}button.light{background:#e8eefc;color:#1e40af}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.badge{display:inline-block;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700}.badge.green{background:#dcfce7;color:#166534}.badge.orange{background:#ffedd5;color:#9a3412}.badge.blue{background:#dbeafe;color:#1e40af}.badge.red{background:#fee2e2;color:#991b1b}
+.progress{height:12px;background:#e5e7eb;border-radius:99px;overflow:hidden}.progress div{height:100%;background:var(--primary);transition:.25s}
+.candidate{border:2px solid var(--border);border-radius:13px;padding:18px}.candidate h3{margin:0 0 5px}.candidate p{margin:4px 0;color:var(--muted)}
+.question{margin:18px 0;padding:17px;background:#f8fafc;border-radius:11px;border:1px solid #e5e7eb}.question-title{font-weight:700;margin-bottom:12px}
+.rating{display:flex;gap:8px;flex-wrap:wrap}.rating label{margin:0;cursor:pointer}.rating input{display:none}.rating span{display:inline-flex;align-items:center;justify-content:center;width:44px;height:40px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#334155}.rating input:checked+span{background:var(--primary);color:#fff;border-color:var(--primary)}
+table{width:100%;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1px solid #e5e7eb;text-align:left}th{background:#f8fafc;font-size:13px}td.num,th.num{text-align:right}
+.stat{padding:18px;border:1px solid var(--border);border-radius:12px;background:#fff}.stat .value{font-size:27px;font-weight:800;margin-top:4px}.stat .label{color:var(--muted);font-size:13px}
+.notice{padding:13px 15px;border-radius:10px;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}.error{background:#fef2f2;color:#991b1b;border-color:#fecaca}
+.small{font-size:13px;color:var(--muted)}.rank1{font-size:18px;font-weight:800}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tabs button{background:#e2e8f0;color:#334155}.tabs button.active{background:var(--primary);color:#fff}
+footer{text-align:center;color:var(--muted);padding:25px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}header h1{font-size:23px}.card{padding:16px}.rating span{width:40px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏆 YCH Best Employee Award 2026</h1>
+  <p>HOD Evaluation & Voting System</p>
+</header>
+
+<div class="container">
+  <section id="loginView" class="card">
+    <h2>HOD Login</h2>
+    <p class="small">Select your HOD account. In a production version this would be replaced by company Microsoft 365 login.</p>
+    <div class="grid grid2">
+      <div><label for="hodSelect">HOD</label><select id="hodSelect"></select></div>
+      <div><label>&nbsp;</label><button onclick="login()">Enter Voting System</button></div>
+    </div>
+    <div id="loginMsg"></div>
+  </section>
+
+  <section id="appView" class="hidden">
+    <div class="card">
+      <div class="topbar">
+        <div><h2 id="welcome"></h2><p id="nomineeInfo" class="small"></p></div>
+        <button class="secondary" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div id="dashboardView">
+      <div class="grid grid3">
+        <div class="stat"><div class="label">Candidates to evaluate</div><div class="value" id="statTotal">10</div></div>
+        <div class="stat"><div class="label">Completed</div><div class="value" id="statDone">0</div></div>
+        <div class="stat"><div class="label">Remaining</div><div class="value" id="statRemain">10</div></div>
+      </div>
+      <div class="card">
+        <div class="topbar"><h2>Your Evaluation Progress</h2><span id="progressText"></span></div>
+        <div class="progress"><div id="progressBar" style="width:0%"></div></div>
+      </div>
+      <div class="card">
+        <h2>Candidate Evaluations</h2>
+        <div id="candidateList"></div>
+      </div>
+    </div>
+
+    <div id="evaluationView" class="hidden">
+      <div class="card">
+        <div class="topbar"><div><h2 id="evalTitle"></h2><p id="evalDept" class="small"></p></div><span id="evalCount" class="badge blue"></span></div>
+        <div id="questions"></div>
+        <div class="actions">
+          <button class="secondary" onclick="backToDashboard()">Back</button>
+          <button onclick="saveCurrentEvaluation()">Save & Next</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="reviewView" class="hidden">
+      <div class="card">
+        <h2>Review & Final Submit</h2>
+        <div class="notice">You have completed all candidate evaluations. Review your scores before final submission. After final submission, your votes will be locked.</div>
+        <div id="reviewTable" style="margin-top:16px"></div>
+        <div class="actions">
+          <button class="secondary" onclick="backToDashboard()">Back</button>
+          <button class="success" onclick="finalSubmit()">FINAL SUBMIT</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="submittedView" class="hidden">
+      <div class="card" style="text-align:center">
+        <div style="font-size:55px">✅</div>
+        <h2>Evaluation Submitted Successfully</h2>
+        <p>Thank you. Your Best Employee Award evaluation has been recorded and locked.</p>
+        <button class="secondary" onclick="logout()">Exit</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="adminView" class="hidden">
+    <div class="card">
+      <div class="topbar"><div><h2>🔐 Admin Dashboard</h2><p class="small">Local prototype administration</p></div><button class="secondary" onclick="adminLogout()">Exit Admin</button></div>
+      <div class="tabs">
+        <button class="active" onclick="showAdminTab('results',this)">Results</button>
+        <button onclick="showAdminTab('status',this)">HOD Status</button>
+        <button onclick="showAdminTab('data',this)">Data</button>
+      </div>
+      <div id="adminResults"></div><div id="adminStatus" class="hidden"></div><div id="adminData" class="hidden"></div>
+    </div>
+  </section>
+
+  <section class="card" id="adminLoginCard">
+    <h3>Administrator</h3>
+    <p class="small">For demonstration only. Default admin PIN: <b>XXXXXX</b></p>
+    <div class="grid grid2"><input id="adminPin" type="password" placeholder="Enter admin PIN"><button onclick="adminLogin()">Open Admin Dashboard</button></div>
+  </section>
+</div>
+<footer>Best Employee Award 2026 • Single-HTML Prototype • Data stored locally in this browser</footer>
+
+<script>
+const QUESTIONS = [
+ "Best Team Player - Exemplifies teamwork and collaboration",
+ "Innovation & Creativity Award - Demonstrated the most innovative and creative thinking",
+ "Resilience Award - Shown exceptional resilience and perseverance in challenging situations",
+ "Customer Hero Award - Provided outstanding customer service and problem-solving support",
+ "Leadership Excellence Award - Demonstrates outstanding leadership and inspires others to succeed"
+];
+
+const HODS = [
+ ["H001","HOD 1","IT","EMP001"],["H002","HOD 2","BMI","EMP002"],
+ ["H003","HOD 3","Danisco","EMP003"],["H004","HOD 4","Finance","EMP004"],
+ ["H005","HOD 5","HR","EMP005"],["H006","HOD 6","MES","EMP006"],
+ ["H007","HOD 7","QA","EMP007"],["H008","HOD 8","Security","EMP008"],
+ ["H009","HOD 9","Freight","EMP009"],["H010","HOD 10","Y5","EMP010"],
+ ["H011","HOD 11","Y8","EMP011"]
+];
+
+const EMPLOYEES = [
+ ["EMP001","Employee 1","IT"],["EMP002","Employee 2","BMI"],
+ ["EMP003","Employee 3","Danisco"],["EMP004","Employee 4","Finance"],
+ ["EMP005","Employee 5","HR"],["EMP006","Employee 6","MES"],
+ ["EMP007","Employee 7","QA"],["EMP008","Employee 8","Security"],
+ ["EMP009","Employee 9","Freight"],["EMP010","Employee 10","Y5"],
+ ["EMP011","Employee 11","Y8"]
+];
+
+let currentHod = null;
+let currentCandidateIndex = 0;
+let tempScores = {};
+
+const KEY="bestEmployeeVotes2026";
+
+function getData(){
+  return JSON.parse(localStorage.getItem(KEY) || '{"evaluations":{},"submitted":{}}');
+}
+function saveData(d){localStorage.setItem(KEY,JSON.stringify(d));}
+function hodObj(id){return HODS.find(x=>x[0]===id)}
+function empObj(id){return EMPLOYEES.find(x=>x[0]===id)}
+function candidatesForHod(){
+  return EMPLOYEES.filter(e=>e[0]!==currentHod[3]);
+}
+function evalKey(hodId,empId){return hodId+"__"+empId}
+
+function init(){
+  const s=document.getElementById("hodSelect");
+  HODS.forEach(h=>{
+    const o=document.createElement("option"); o.value=h[0]; o.textContent=h[1]+" — "+h[2]; s.appendChild(o);
+  });
+}
+function login(){
+  currentHod=hodObj(document.getElementById("hodSelect").value);
+  const d=getData();
+  document.getElementById("loginView").classList.add("hidden");
+  document.getElementById("appView").classList.remove("hidden");
+  document.getElementById("adminLoginCard").classList.add("hidden");
+  document.getElementById("welcome").textContent="Welcome, "+currentHod[1];
+  document.getElementById("nomineeInfo").textContent="Department: "+currentHod[2]+" • Your nominee: "+empObj(currentHod[3])[1]+" (cannot be evaluated by you)";
+  if(d.submitted[currentHod[0]]) showSubmitted(); else showDashboard();
+}
+function logout(){
+  currentHod=null; document.getElementById("appView").classList.add("hidden"); document.getElementById("loginView").classList.remove("hidden"); document.getElementById("adminLoginCard").classList.remove("hidden");
+}
+function showOnly(id){
+  ["dashboardView","evaluationView","reviewView","submittedView"].forEach(x=>document.getElementById(x).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+function showDashboard(){
+  showOnly("dashboardView");
+  const d=getData(), cs=candidatesForHod(), done=cs.filter(e=>d.evaluations[evalKey(currentHod[0],e[0])]).length;
+  document.getElementById("statTotal").textContent=cs.length;
+  document.getElementById("statDone").textContent=done;
+  document.getElementById("statRemain").textContent=cs.length-done;
+  document.getElementById("progressText").textContent=done+" / "+cs.length+" completed";
+  document.getElementById("progressBar").style.width=(done/cs.length*100)+"%";
+  const box=document.getElementById("candidateList"); box.innerHTML="";
+  cs.forEach((e,i)=>{
+    const v=d.evaluations[evalKey(currentHod[0],e[0])];
+    const div=document.createElement("div"); div.className="candidate"; div.style.marginBottom="12px";
+    div.innerHTML=`<div class="topbar"><div><h3>${e[1]}</h3><p>${e[2]}</p></div><span class="badge ${v?'green':'orange'}">${v?'Completed':'Pending'}</span></div>
+    <div class="actions"><button class="${v?'light':''}" onclick="startEvaluation(${i})">${v?'Review / Edit':'Evaluate Candidate'}</button></div>`;
+    box.appendChild(div);
+  });
+  if(done===cs.length) {
+    const b=document.createElement("div"); b.className="notice"; b.style.marginTop="15px";
+    b.innerHTML='<b>All 10 candidates completed.</b> Click "Review & Final Submit" below when ready.';
+    box.appendChild(b);
+    const btn=document.createElement("button"); btn.className="success"; btn.textContent="Review & Final Submit"; btn.onclick=review;
+    box.appendChild(btn);
+  }
+}
+function startEvaluation(i){
+  currentCandidateIndex=i;
+  const e=candidatesForHod()[i], d=getData(), old=d.evaluations[evalKey(currentHod[0],e[0])];
+  tempScores=old ? [...old.scores] : [0,0,0,0,0];
+  showOnly("evaluationView");
+  document.getElementById("evalTitle").textContent=e[1];
+  document.getElementById("evalDept").textContent="Department: "+e[2];
+  document.getElementById("evalCount").textContent="Candidate "+(i+1)+" of 10";
+  const q=document.getElementById("questions"); q.innerHTML="";
+  QUESTIONS.forEach((text,qi)=>{
+    const div=document.createElement("div"); div.className="question";
+    let opts="";
+    for(let n=1;n<=5;n++) opts+=`<label><input type="radio" name="q${qi}" value="${n}" ${tempScores[qi]===n?'checked':''} onchange="tempScores[${qi}]=${n}"><span>${n}</span></label>`;
+    div.innerHTML=`<div class="question-title">${qi+1}. ${text}</div><div class="rating">${opts}</div><div class="small" style="margin-top:8px">1 = Poor &nbsp; 2 = Below Average &nbsp; 3 = Good &nbsp; 4 = Very Good &nbsp; 5 = Excellent</div>`;
+    q.appendChild(div);
+  });
+}
+function saveCurrentEvaluation(){
+  if(tempScores.some(x=>!x)){alert("Please answer all 5 questions before continuing.");return}
+  const e=candidatesForHod()[currentCandidateIndex], d=getData();
+  d.evaluations[evalKey(currentHod[0],e[0])] = {hodId:currentHod[0],candidateId:e[0],scores:tempScores,total:tempScores.reduce((a,b)=>a+b,0),savedAt:new Date().toISOString()};
+  saveData(d);
+  const cs=candidatesForHod();
+  const next=cs.findIndex((x,i)=>i>currentCandidateIndex && !d.evaluations[evalKey(currentHod[0],x[0])]);
+  if(next>=0) startEvaluation(next); else showDashboard();
+}
+function review(){
+  const d=getData(), cs=candidatesForHod();
+  if(cs.some(e=>!d.evaluations[evalKey(currentHod[0],e[0])])){alert("Please complete all 10 candidate evaluations first.");return}
+  showOnly("reviewView");
+  let rows=cs.map((e,i)=>{let v=d.evaluations[evalKey(currentHod[0],e[0])];return `<tr><td>${i+1}</td><td>${e[1]}</td><td>${e[2]}</td><td class="num"><b>${v.total}/25</b></td><td class="num">${v.scores.join(" / ")}</td></tr>`}).join("");
+  document.getElementById("reviewTable").innerHTML=`<table><thead><tr><th>#</th><th>Candidate</th><th>Department</th><th class="num">Total</th><th class="num">Q1-Q5</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function finalSubmit(){
+  const d=getData(), cs=candidatesForHod();
+  if(cs.some(e=>!d.evaluations[evalKey(currentHod[0],e[0])])){alert("Incomplete evaluation.");return}
+  if(!confirm("Once submitted, your votes cannot be changed. Submit final evaluation?"))return;
+  d.submitted[currentHod[0]]=new Date().toISOString(); saveData(d); showSubmitted();
+}
+function showSubmitted(){showOnly("submittedView")}
+function backToDashboard(){showDashboard()}
+
+function adminLogin(){
+  if(document.getElementById("adminPin").value!=="2026"){alert("Incorrect admin PIN.");return}
+  document.getElementById("loginView").classList.add("hidden");document.getElementById("adminLoginCard").classList.add("hidden");document.getElementById("adminView").classList.remove("hidden");renderAdmin();
+}
+function adminLogout(){document.getElementById("adminView").classList.add("hidden");document.getElementById("loginView").classList.remove("hidden");document.getElementById("adminLoginCard").classList.remove("hidden");}
+function showAdminTab(tab,btn){
+  ["results","status","data"].forEach(x=>document.getElementById("admin"+x[0].toUpperCase()+x.slice(1)).classList.add("hidden"));
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+  document.getElementById("admin"+tab[0].toUpperCase()+tab.slice(1)).classList.remove("hidden");renderAdmin();
+}
+function renderAdmin(){
+  const d=getData();
+  const submitted=HODS.filter(h=>d.submitted[h[0]]).length;
+  const rows=EMPLOYEES.map(e=>{
+    let scores=[], q=[0,0,0,0,0], voters=0;
+    HODS.forEach(h=>{if(h[3]===e[0])return;let v=d.evaluations[evalKey(h[0],e[0])];if(v){voters++;scores.push(v.total);v.scores.forEach((s,i)=>q[i]+=s)}});
+    const total=scores.reduce((a,b)=>a+b,0), avg=scores.length?total/scores.length/5:0;
+    return {...e,voters,total,avg,q};
+  }).sort((a,b)=>b.avg-a.avg||b.total-a.total);
+  document.getElementById("adminResults").innerHTML=`
+    <div class="grid grid3">
+      <div class="stat"><div class="label">HODs Submitted</div><div class="value">${submitted}/11</div></div>
+      <div class="stat"><div class="label">Evaluations</div><div class="value">${Object.keys(d.evaluations).length}/110</div></div>
+      <div class="stat"><div class="label">Voting Progress</div><div class="value">${Math.round(Object.keys(d.evaluations).length/110*100)}%</div></div>
+    </div>
+    <div style="margin-top:20px"><h2>🏆 Final Ranking</h2>
+    <table><thead><tr><th>Rank</th><th>Employee</th><th>Department</th><th class="num">Votes</th><th class="num">Total</th><th class="num">Average / 5</th></tr></thead>
+    <tbody>${rows.map((r,i)=>`<tr><td class="${i===0?'rank1':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td><td><b>${r[1]}</b></td><td>${r[2]}</td><td class="num">${r.voters}/10</td><td class="num">${r.total}/250</td><td class="num"><b>${r.avg.toFixed(2)}</b></td></tr>`).join("")}</tbody></table></div>
+    <div style="margin-top:22px"><h2>Question Analysis</h2><table><thead><tr><th>Employee</th>${QUESTIONS.map((_,i)=>`<th class="num">Q${i+1}</th>`).join("")}</tr></thead><tbody>
+    ${rows.map(r=>`<tr><td>${r[1]}</td>${r.q.map((v,i)=>`<td class="num">${r.voters?(v/r.voters).toFixed(2):'-'}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+    <div class="actions"><button onclick="exportCSV()">Export Results CSV</button><button class="warning" onclick="resetAll()">Reset All Voting Data</button></div>`;
+  document.getElementById("adminStatus").innerHTML=`<h2>HOD Voting Status</h2><table><thead><tr><th>HOD</th><th>Department</th><th>Nominee</th><th>Status</th><th>Evaluations</th></tr></thead><tbody>${HODS.map(h=>{let n=EMPLOYEES.find(e=>e[0]===h[3]);let c=EMPLOYEES.filter(e=>e[0]!==h[3]).filter(e=>d.evaluations[evalKey(h[0],e[0])]).length;return `<tr><td>${h[1]}</td><td>${h[2]}</td><td>${n[1]}</td><td><span class="badge ${d.submitted[h[0]]?'green':'orange'}">${d.submitted[h[0]]?'Final Submitted':'Pending'}</span></td><td>${c}/10</td></tr>`}).join("")}</tbody></table>`;
+  document.getElementById("adminData").innerHTML=`<h2>Raw Local Data</h2><p class="small">This prototype stores data in this browser's localStorage. It is not suitable for multi-PC production voting.</p><textarea rows="15" readonly>${JSON.stringify(d,null,2)}</textarea>`;
+}
+function exportCSV(){
+  const d=getData(), lines=[["Rank","Employee","Department","HOD Evaluations","Total Score","Average / 5",...QUESTIONS.map((_,i)=>"Q"+(i+1))]];
+  const rows=EMPLOYEES.map(e=>{let q=[0,0,0,0,0],total=0,v=0;HODS.forEach(h=>{if(h[3]===e[0])return;let x=d.evaluations[evalKey(h[0],e[0])];if(x){v++;total+=x.total;x.scores.forEach((s,i)=>q[i]+=s)}});return {e,q,total,v,avg:v?total/v/5:0}}).sort((a,b)=>b.avg-a.avg||b.total-a.total);
+  rows.forEach((r,i)=>lines.push([i+1,r.e[1],r.e[2],r.v,r.total,r.avg.toFixed(2),...r.q.map(x=>r.v? (x/r.v).toFixed(2):"")]));
+  const csv=lines.map(row=>row.map(x=>`"${String(x).replaceAll('"','""')}"`).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="Best_Employee_Award_2026_Results.csv";a.click();
+}
+function resetAll(){
+  if(!confirm("This will permanently delete all voting data from this browser. Continue?"))return;
+  localStorage.removeItem(KEY);renderAdmin();alert("Voting data reset.");
+}
+init();
+</script>
+</body>
+</html>
